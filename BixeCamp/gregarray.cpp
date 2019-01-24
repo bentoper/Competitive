@@ -1,4 +1,4 @@
-#include <bits/stdc++.h>
+#include "bits/stdc++.h"
 using namespace std;
 
 #define pb push_back
@@ -22,12 +22,44 @@ typedef long long int ll;
 typedef pair<int,int> pii;
 typedef vector<int> vi;
 typedef vector<pii> vii;
-typedef vector<ll> vll;
 typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
-int main(){
+ll n, m, k;
+ll nums[100001];
+ll accu[100002];
+ll freq[100002];
+vector<pair<pii, int>> ops;
 
+
+int main(){
+	cin >> n >> m >> k;
+	frr(i, n){
+		cin >> nums[i];
+	}
+	ops.pb({{0, 0}, 0});
+	fr(i, m){
+		rvr(aux1); rvr(aux2); rvr(aux3);
+		ops.pb({{aux1, aux2}, aux3});
+	}
+	fr(i, k){
+		rvr(aux1); rvr(aux2);
+		freq[aux1]++;
+		freq[aux2+1]--;
+	}
+	frr(i, m){
+		freq[i] += freq[i-1];
+		accu[ops[i].first.first] += (ll)(freq[i]*(ll)ops[i].snd);
+		accu[ops[i].first.snd+1] -= (ll)(freq[i]*(ll)ops[i].snd);
+	}
+	frr(i, n){
+		accu[i] += accu[i-1];
+	}
+	frr(i, n){
+		ll aux = nums[i] + accu[i];
+		cout << aux << " ";
+	}
+	gnl;
 }

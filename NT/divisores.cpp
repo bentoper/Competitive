@@ -27,7 +27,43 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
+const ll SIEVE_MAX = 1000000000;
+
+int A, B, C, D;
+
+vll prim;
+int primes[100001];
+
+void crivo(){
+	for(ll i = 2; i*i <= SIEVE_MAX;i++){
+		if(!primes[i]){
+			prim.pb(i);
+			for(ll j = i*i; j*j <= SIEVE_MAX; j+=i) primes[j] = 1;
+		}
+	}
+}
+
+void solve(int x){
+	for(int i = prim.size() - 1; i >= 0; i--){
+		int z = prim[i];
+		int aux = x/z;
+		while(x%z == 0 && aux%A == 0 && D%aux != 0 && aux != 1){
+			aux /= z;
+			x /= z;
+		}
+	}
+	C = x;
+}
+
 
 int main(){
-
+	scanf("%d%d%d%d", &A, &B, &C, &D);
+	if(C%A != 0 || A%B == 0 || C == D){
+		 printf("-1\n");
+		 return 0;
+	}
+	crivo();
+	solve(C);
+	if(C%B != 0 && C%A == 0 && D%C != 0) printf("%d\n", C);
+	else printf("-1\n");
 }

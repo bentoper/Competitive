@@ -28,6 +28,34 @@ typedef pair<ll,ll> pll;
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
+
+// pai inicializa com p[i] = i e peso = 0, qtd = 1;
+int pai[MAX], peso[MAX], qtd[MAX];
+
+
+int find(int x){
+	return (pai[x] == x)?x:(pai[x] = find(pai[x]));
+}
+
+void join(int x, int y){
+	int px = find(x);
+	int py = find(y);
+
+	if(px == py) return;
+
+	if(peso[px] > peso[py]){
+		pai[py] = px;
+		qtd[px] += qtd[py];
+	}
+	else{
+		pai[px] = py;
+		if(peso[px] == peso[py]) peso[py]++;
+		qtd[py] += qtd[px];
+	}
+
+}
+
+
 int main(){
 
 }

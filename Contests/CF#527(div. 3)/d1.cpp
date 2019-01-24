@@ -1,4 +1,4 @@
-#include <bits/stdc++.h>
+#include "bits/stdc++.h"
 using namespace std;
 
 #define pb push_back
@@ -22,12 +22,32 @@ typedef long long int ll;
 typedef pair<int,int> pii;
 typedef vector<int> vi;
 typedef vector<pii> vii;
-typedef vector<ll> vll;
 typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
 int main(){
-
+	stack<ll> s;
+	rvr(n);
+	fr(i, n){
+		ll aux; scanf("%lld", &aux);
+		if(s.empty()) s.push(aux);
+		else if((s.top()-aux)%2 == 0) s.pop();
+		else s.push(aux);
+	}
+	if(n%2){
+		s.pop();
+		if(s.empty()){
+			printf("YES\n");
+			return 0;
+		}
+		printf("NO\n");
+		return 0;
+	}
+	if(s.empty()){
+		printf("YES\n");
+		return 0;
+	} 
+	printf("NO\n");
 }

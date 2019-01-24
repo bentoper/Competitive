@@ -27,7 +27,22 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
+const ll SIEVE_MAX = 1e9;
+
+vll prim;
+int primes[100000];
+
+void crivo(){
+	for(ll i = 2; i*i <= SIEVE_MAX;i++){
+		if(!primes[i]){
+			prim.pb(i);
+			for(ll j = i*i; j*j <= SIEVE_MAX; j+=i) primes[j] = 1;
+		}
+	}
+}
+
 
 int main(){
+	
 
 }

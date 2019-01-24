@@ -28,6 +28,24 @@ typedef pair<ll,ll> pll;
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
-int main(){
+int A, B, C, D, ans = INF;
+vi divs;
 
+bool solve(int x){
+	if(x%A == 0 && x%B != 0 && D%x != 0) return true;
+	return false;
+}
+
+
+
+int main(){
+	scanf("%d%d%d%d", &A, &B, &C, &D);
+	for(int i = 1; i*i <= C; i++){
+		if(C%i == 0){
+			if(solve(i)) ans = min(ans, i);
+			if(solve(C/i)) ans = min(ans, C/i);
+		}
+	}
+	if(ans != INF) printf("%d\n", ans);
+	else printf("-1\n");
 }

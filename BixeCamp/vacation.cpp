@@ -22,12 +22,34 @@ typedef long long int ll;
 typedef pair<int,int> pii;
 typedef vector<int> vi;
 typedef vector<pii> vii;
-typedef vector<ll> vll;
 typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
-int main(){
+int n, a[101], memo[101][101][2][2];
 
+int dp(int i, int rest, int s, int c){
+	if(i == n) return 0;
+	int &pdm = memo[i][rest][s][c];
+	if(pdm == -1){
+		pdm = INF;
+		if(s != 1 && a[i] >= 2){
+			pdm = min(pdm, dp(i+1, rest, 1, 0));
+		}
+		if(c != 1 && (a[i] == 1 || a[i] == 3)){
+			pdm = min(pdm, dp(i+1, rest, 0, 1));
+		}
+		pdm = min(pdm, dp(i+1, rest+1, 0, 0) + 1);
+	}
+	return pdm;
+}
+
+
+
+int main(){
+	scanf("%d", &n);
+	fr(i, n) scanf("%d", &a[i]);
+	ms(memo, -1);
+	printf("%d\n", dp(0, 0, 0, 0));
 }

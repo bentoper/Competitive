@@ -28,6 +28,40 @@ typedef pair<ll,ll> pll;
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
-int main(){
+vll prim;
+int primes[66001];
 
+ll N, ans = 1, blip;
+
+void crivo(ll top){
+	for(ll i = 2; i <= top; i++){
+		if(!primes[i]){
+			prim.pb(i);
+			for(ll j = i*i; j <= top; j += i) primes[j] = 1;
+		}
+	}
+}
+
+void solve(ll x){
+	for(auto z: prim){
+		if(z*z > x) break;
+		if(x%z == 0){
+			while(x%z == 0){
+				x /= z;
+			}
+			ans -= ans/z;
+		}
+	}
+	if(x != 1) ans -= ans/x;
+}
+
+int main(){
+	crivo(66000);
+	blip = prim.size();
+	while(scanf("%lld", &N) == 1){
+		ans = N;
+		solve(N);	
+		if(ans == 1) printf("1\n");
+		else printf("%lld\n", ans/2);
+	}
 }

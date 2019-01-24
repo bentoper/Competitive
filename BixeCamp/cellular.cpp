@@ -1,4 +1,4 @@
-#include <bits/stdc++.h>
+#include "bits/stdc++.h"
 using namespace std;
 
 #define pb push_back
@@ -22,12 +22,37 @@ typedef long long int ll;
 typedef pair<int,int> pii;
 typedef vector<int> vi;
 typedef vector<pii> vii;
-typedef vector<ll> vll;
 typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
-int main(){
+ll n, m, r = 0;
+vector<ll> cities, towers;
 
+int main(){
+	scanf("%lld%lld", &n, &m);
+	ll aux;
+	fr(i, n){
+		scanf("%lld", &aux);
+		cities.pb(aux);
+	}
+	fr(i, m){
+		scanf("%lld", &aux);
+		towers.pb(aux);
+	}
+	fr(i, n){
+		ll low = lower_bound(all(towers), cities[i]-r) - towers.begin();
+		if(low == m){
+			r = abs(cities[i] - towers[m-1]);
+		}
+		else{
+			if(towers[low] <= cities[i] + r) continue;
+			else{
+				if(low > 0) r = max(r, min(abs(cities[i]-towers[low-1]), abs(cities[i]-towers[low])));
+				else r = abs(cities[i]-towers[low]);
+			}
+		}
+	}
+	printf("%lld\n", r);
 }

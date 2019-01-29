@@ -17,6 +17,7 @@ using namespace std;
 #define gnl cout << endl
 #define olar cout << "olar" << endl
 #define fastio ios_base::sync_with_stdio(false); cin.tie(NULL)
+#define MAX 10001
 
 typedef long long int ll;
 typedef pair<int,int> pii;
@@ -31,6 +32,19 @@ const ll llINF = 0x3f3f3f3f3f3f3f;
 
 // pai inicializa com p[i] = i e peso = 0, qnt = 1;
 int pai[MAX], peso[MAX], qnt[MAX];
+ll mst_size;
+int n, m;
+
+struct aresta{
+	int x;
+	int y;
+	int w;
+};
+
+aresta arestas[MAX];
+vector<aresta> mst;
+
+bool mysort(aresta a, aresta b){ return a.w < b.w; }
 
 
 int find(int x){
@@ -57,5 +71,19 @@ void join(int x, int y){
 
 
 int main(){
-
+	scanf("%d%d", &n, &m);
+	frr(i, n) pai[i] = i;
+	ms(qnt, 1);
+	fr(i, m){
+		scanf("%d%d%d", &arestas[i].x, &arestas[i].y, &arestas[i].w);
+	}
+	sort(arestas, arestas+m, mysort);
+	fr(i, m){
+		if(find(arestas[i].x) != find(arestas[i].y)){
+			mst.pb(arestas[i]);
+			join(arestas[i].x, arestas[i].y);
+			mst_size += arestas[i].w;
+		}
+	}
+	printf("%lld\n", mst_size);
 }

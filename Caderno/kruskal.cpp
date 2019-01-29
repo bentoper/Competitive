@@ -29,16 +29,17 @@ const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
 
-// pai inicializa com p[i] = i e peso = 0, qtd = 1;
-int pai[MAX], peso[MAX], qtd[MAX];
+// pai inicializa com p[i] = i e peso = 0, qnt = 1;
+int pai[MAX], peso[MAX], qnt[MAX];
 
-int n, m, mst_size;
+ll mst_size;
+int n, m;
 
 struct aresta{
 	int x;
 	int y;
 	int w;
-}aresta;
+};
 
 aresta arestas[MAX];
 vector<aresta> mst;
@@ -58,12 +59,12 @@ void join(int x, int y){
 
 	if(peso[px] > peso[py]){
 		pai[py] = px;
-		qtd[px] += qtd[py];
+		qnt[px] += qnt[py];
 	}
 	else{
 		pai[px] = py;
 		if(peso[px] == peso[py]) peso[py]++;
-		qtd[py] += qtd[px];
+		qnt[py] += qnt[px];
 	}
 
 }
@@ -71,15 +72,15 @@ void join(int x, int y){
 
 int main(){
 	scanf("%d%d", &n, &m);
-	fr(i, n) pai[i] = i;
-	ms(qtd, 1);
+	frr(i, n) pai[i] = i;
+	ms(qnt, 1);
 	fr(i, m){
 		scanf("%d%d%d", &arestas[i].x, &arestas[i].y, &arestas[i].w);
 	}
 	sort(arestas, arestas+m, mysort);
 	fr(i, m){
 		if(find(arestas[i].x) != find(arestas[i].y)){
-			mst.pb(arestas[i])
+			mst.pb(arestas[i]);
 			join(arestas[i].x, arestas[i].y);
 			mst_size += arestas[i].w;
 		}

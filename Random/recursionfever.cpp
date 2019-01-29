@@ -28,6 +28,29 @@ typedef pair<ll,ll> pll;
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
+ll memo[1001], a[1001];
+ll n, k, m;
+
+ll dp(ll i){
+	if(memo[i] != -llINF) return memo[i];
+	memo[i] = 0;
+	frr(j, n){
+		memo[i] += (a[j]*dp(i-j))%m;
+		memo[i] %= m;
+	}
+	return memo[i];
+}
+
 int main(){
+	scanf("%lld%lld%lld", &n, &k, &m);
+	frr(i, n){
+		scanf("%lld", &a[i]);
+	}
+	frr(i, n){
+		scanf("%lld", &memo[i]);
+	}
+	for(ll i = n + 1; i <= k; i++) memo[i] = -llINF;
+	printf("%lld\n", dp(k));
+	//frr(i, k) dbg(memo[i]);
 
 }

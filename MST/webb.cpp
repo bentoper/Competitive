@@ -17,7 +17,7 @@ using namespace std;
 #define gnl cout << endl
 #define olar cout << "olar" << endl
 #define fastio ios_base::sync_with_stdio(false); cin.tie(NULL)
-#define MAX 201
+#define MAX 100001
 
 typedef long long int ll;
 typedef pair<int,int> pii;
@@ -31,10 +31,10 @@ const ll llINF = 0x3f3f3f3f3f3f3f;
 
 
 // pai inicializa com p[i] = i e peso = 0, qnt = 1;
-int pai[201], peso[201], qnt[201], on[201];
+int pai[MAX], peso[MAX], qnt[MAX], use[MAX];
 
 ll mst_size;
-int n, m, k;
+int n, m, cnt;
 
 struct aresta{
 	int x;
@@ -42,8 +42,9 @@ struct aresta{
 	int w;
 };
 
-aresta arestas[22000];
+aresta arestas[MAX];
 vector<aresta> mst;
+stack<int> s, out;
 
 bool mysort(aresta a, aresta b){ return a.w < b.w; }
 
@@ -55,8 +56,6 @@ int find(int x){
 void join(int x, int y){
 	int px = find(x);
 	int py = find(y);
-	if(on[px]) on[py] = 1;
-	if(on[py]) on[px] = 1;
 
 	if(px == py) return;
 
@@ -74,33 +73,38 @@ void join(int x, int y){
 
 
 int main(){
-	rvr(t); int count = 1;
-	while(t--){
-		scanf("%d%d%d", &n, &m, &k);
-		frr(i, n){
-			pai[i] = i;
-			qnt[i] = 1;
-			peso[i] = 1;
-			on[i] = 0;
-		}
-		mst_size = 0;
-		fr(i, k){
-			rvr(aux);
-			on[aux] = 1;
-		}
-		fr(i, m){
-			scanf("%d%d%d", &arestas[i].x, &arestas[i].y, &arestas[i].w);
-		}
-		sort(arestas, arestas+m, mysort);
-		fr(i, m){
-			int a = find(arestas[i].x);
-			int b = find(arestas[i].y);
-			if((!on[a] || !on[b]) && (a != b)){
-				join(a, b);
-				mst_size += arestas[i].w;
+	scanf("%d%d", &n, &m);
+	frr(i, n) pai[i] = i;
+	ms(qnt, 1);
+	frr(i, m){
+		scanf("%d%d", &arestas[i].x, &arestas[i].y);
+	}
+	rvr(q);
+	cnt = n;
+	fr(i, q){
+		rvr(aux);
+		s.push(aux);
+		use[aux] = 1;
+	}
+	frr(i, m){
+		if(!use[i]){
+			if(find(arestas[i].x) != find(arestas[i].y)){
+				cnt--;
+				join(arestas[i].x, arestas[i].y);
 			}
 		}
-		printf("Case #%d: %lld\n", count++, mst_size);
 	}
-
+	fr(i, q){
+		out.push(cnt);
+		if(find(arestas[s.top()].x) != find(arestas[s.top()].y)){
+			cnt--;
+			join(arestas[s.top()].x, arestas[s.top()].y);
+		}
+		s.pop();
+	}
+	fr(i, q){
+		printf("%d ", out.top());
+		out.pop();
+	}
+	gnl;
 }

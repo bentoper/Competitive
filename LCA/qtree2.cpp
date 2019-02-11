@@ -28,29 +28,39 @@ typedef pair<ll,ll> pll;
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
-#define MAXN 	100100
-#define LMAXN	20		//ceil(log2(MAXN))
+#define MAXN 	30000
+#define LMAXN	16		//ceil(log2(MAXN))
 
 
 
-vector<int> adj[MAXN];
+vector<vii> adj;
 
 int memo[MAXN][LMAXN + 1];
+ll dist[MAXN];
 int hgt[MAXN];
 int n;
 
 void dfs(int v){
-	
-	for(auto filho : adj[v]){
-	
+
+
+	for(auto z : adj[v]){
+
+
+		int filho = z.first;
+
 		if(hgt[filho] != -1)	continue;
 	
-		memo[filho][0]=v;		//seta o pai do cara
-		hgt[filho]=hgt[v]+1;
+		memo[filho][0] = v;		//seta o pai do cara
+		hgt[filho] 	= hgt[v] + 1;
+		dist[filho] = dist[v] + z.second;
 		
 		for(int i=1;i<LMAXN;i++)	
-			if(memo[filho][i-1] != -1) memo[filho][i]=memo[memo[filho][i-1]][i-1];
+			{
+				if(memo[filho][i-1] != -1) memo[filho][i] = memo[memo[filho][i-1]][i-1];
+
+			}
 								//gera a sparse table na propria dfs (dependencias ja estao calculadas, por inducao)
+
 		dfs(filho);
 	}
 
@@ -80,5 +90,77 @@ int lca(int a, int b){
 }
 
 int main(){
+
+	fastio;
+	int t; cin >> t;
+	while(t--){
+
+		cin >> n;
+
+
+		ms(dist, 0); ms(hgt, -1);
+		ms(memo, -1);
+
+
+		adj.clear(); adj.resize(n+1);
+
+		fr(i, n-1){
+			int a, b, peso;
+			cin >> a >> b >> peso;
+			adj[a].pb({b, peso});
+			adj[b].pb({a, peso});
+		}
+
+		hgt[1] = 0;
+		
+		dfs(1);
+
+		string aux;
+		while(cin >> aux && aux != "DONE"){
+			int a, b;
+			cin >> a;
+			cin >> b;
+			if(aux == "DIST"){
+				ll aux = 2*(ll)dist[lca(a, b)];
+				aux -= dist[a];
+				aux -= dist[b];
+				aux *= -1;
+				cout << aux << endl;
+			}
+			else{
+				int k; cin >> k;
+				int LCA = lca(a, b);
+				k--;
+				if(a == b) cout << a << endl;
+				else if(k <= hgt[a] - hgt[LCA]){
+					if(k == hgt[a] - hgt[LCA]) cout << LCA << endl;
+					else if(k == 0) cout << a << endl;
+					else{
+						int i = 0;
+						while(k != 0){
+							if(k%2) a = memo[a][i];
+							i++;
+							k /= 2;
+						}
+						cout << a << endl;
+					}
+					
+				}
+				else{
+					k = hgt[a] + hgt[b] - 2*hgt[LCA] - k;
+					if(k == 0) cout << b << endl;
+					else{
+						int i = 0;
+						while(k != 0){
+							if(k%2) b = memo[b][i];
+							i++;
+							k /= 2;
+						}
+						cout << b << endl;
+					}
+				}
+			}
+		}
+	}
 
 }

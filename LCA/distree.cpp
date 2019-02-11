@@ -28,25 +28,28 @@ typedef pair<ll,ll> pll;
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
-#define MAXN 	100100
 #define LMAXN	20		//ceil(log2(MAXN))
 
 
 
-vector<int> adj[MAXN];
+vector<pii> adj[50001];
 
-int memo[MAXN][LMAXN + 1];
-int hgt[MAXN];
+ll memo[60001][20], dist[60001];
+int hgt[60001];
 int n;
 
+
 void dfs(int v){
-	
-	for(auto filho : adj[v]){
-	
-		if(hgt[filho] != -1)	continue;
+	int sz = adj[v].size();	
+	fr(i, sz){
+
+		int filho = adj[v][i].first;
+
+		if(dist[filho] != -1)	continue;
 	
 		memo[filho][0]=v;		//seta o pai do cara
-		hgt[filho]=hgt[v]+1;
+		hgt[filho] = hgt[v]+1;
+		dist[filho] = dist[v] + adj[v][i].second;
 		
 		for(int i=1;i<LMAXN;i++)	
 			if(memo[filho][i-1] != -1) memo[filho][i]=memo[memo[filho][i-1]][i-1];
@@ -61,7 +64,7 @@ int lca(int a, int b){
 	if(hgt[a]<hgt[b])	swap(a,b);		//quero que a seja o cara mais profundo na arvore
 
 	for(int i=LMAXN-1; i>=0; i-- ){						//bota a e b na mesma altura
-		if(memo[a][i] != -1 && hgt[ memo[a][i] ] >= hgt[b])	a=memo[a][i];	//vou subir o a ate ele ficar no mesmo nivel do b
+		if(hgt[ memo[a][i] ] >= hgt[b])	a=memo[a][i];	//vou subir o a ate ele ficar no mesmo nivel do b
 	}
 
 	if(a==b)	return a;	//se forem iguais, retorna o LCA
@@ -79,6 +82,28 @@ int lca(int a, int b){
 
 }
 
-int main(){
 
+
+int main(){
+	ms(memo, -1);
+	ms(dist, -1);
+	cin >> n;
+	fr(i, n-1){
+		rvr(a);
+		rvr(b);
+		rvr(peso);
+		adj[a].pb({b, peso});
+		adj[b].pb({a, peso});
+	}
+	dist[0] = 0;
+	dfs(0);
+	rvr(m);
+	fr(i, m){
+		rvr(a); rvr(b);
+		ll aux = 2*(ll)dist[lca(a, b)];
+		aux -= dist[a];
+		aux -= dist[b];
+		aux *= -1;
+		cout << aux << endl;
+	}
 }

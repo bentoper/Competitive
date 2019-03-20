@@ -28,28 +28,39 @@ typedef pair<ll,ll> pll;
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
-#define MAXN 	100100
-#define LMAXN	20		//ceil(log2(MAXN))
+#define MAXN 	300000
+#define LMAXN	17		//ceil(log2(MAXN))
 
 
 
-vector<int> adj[MAXN];
+vector<pii> adj[112345];
 
-int memo[MAXN][LMAXN + 1];
-int hgt[MAXN];
+pair<pii, int> path;	
+int memo[112345][17];
+ll dist[112345];
+int hgt[112345];
 int n;
+int q;
 
 void dfs(int v){
 	
-	for(auto filho : adj[v]){
+	for(auto z : adj[v]){
 	
+		int filho = z.first;
+
+		if(hgt[filho] != -1 && filho != memo[v][0]){
+			path = {(pii){v, filho}, z.snd};
+			continue;
+		}
+
 		if(hgt[filho] != -1)	continue;
 	
-		memo[filho][0]=v;		//seta o pai do cara
-		hgt[filho]=hgt[v]+1;
+		memo[filho][0] = v;		//seta o pai do cara
+		hgt[filho] = hgt[v]+1;
+		dist[filho] = dist[v] + z.second;
 		
 		for(int i=1;i<LMAXN;i++)	
-			if(memo[filho][i-1] != -1) memo[filho][i]=memo[memo[filho][i-1]][i-1];
+			if(memo[filho][i-1] != -1) memo[filho][i] = memo[memo[filho][i-1]][i-1];
 								//gera a sparse table na propria dfs (dependencias ja estao calculadas, por inducao)
 		dfs(filho);
 	}
@@ -79,6 +90,35 @@ int lca(int a, int b){
 
 }
 
-int main(){
+ll frederick(int a, int b){
+	ll aux = 2*dist[lca(a, b)];
+	aux -= dist[a];
+	aux -= dist[b];
+	aux *= -1;
+	return aux;
+}
 
+int main(){
+	//fastio;
+	int t; cin >> t;
+	while(t--){
+		ms(dist, INF);
+		ms(memo, -1);
+		ms(hgt, -1);
+		cin >> n >> q;
+		fr(i, n){
+			int a, b, peso;
+			cin >> a >> b >> peso;
+			adj[a].pb({b, peso});
+			adj[b].pb({a, peso});
+		}
+		dist[1] = 0;
+		hgt[1] = 0;
+		dfs(1);
+		fr(i, q){
+			int a, b; cin >> a >> b;
+			cout << min(frederick(a, b),  min(frederick(a, path.first.first)+frederick(b, path.first.snd)+path.snd,frederick(b, path.first.first)+frederick(a, path.first.snd)+path.snd)) << endl;
+		}
+		frr(i, n) adj[i].clear(); 
+	}
 }

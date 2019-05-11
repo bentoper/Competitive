@@ -38,20 +38,13 @@ int find(int x){
 }
 
 void join(int x, int y){
-	int px = find(x);
-	int py = find(y);
+	if((x = find(x)) == (y = find(y))) return;
 
-	if(px == py) return;
+	if(peso[x] > peso[y]) swap(px);
 
-	if(peso[px] > peso[py]){
-		pai[py] = px;
-		qnt[px] += qnt[py];
-	}
-	else{
-		pai[px] = py;
-		if(peso[px] == peso[py]) peso[py]++;
-		qnt[py] += qnt[px];
-	}
+	pai[px] = py;
+	if(peso[px] == peso[py]) peso[py]++;
+	qnt[py] += qnt[px];
 
 }
 

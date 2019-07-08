@@ -32,6 +32,7 @@ const ll llINF = 0x3f3f3f3f3f3f3f;
 //Requires a vector of prime numvers prim
 
 void solve(ll x){
+	ll ans = x;
 	for(auto z: prim){
 		if(z*z > x) break;
 		if(x%z == 0){

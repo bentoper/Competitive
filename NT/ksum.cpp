@@ -13,7 +13,7 @@ using namespace std;
 #define dbg(x)	cout << #x << " = " << x << endl
 #define all(x)	x.begin(),x.end()
 #define otp(x) cout << x << endl;
-#define rvr(x) int x; scanf("%d", &x)
+#define rvr(x) int x; scanf("%d", &x);
 #define gnl cout << endl
 #define olar cout << "olar" << endl
 #define fastio ios_base::sync_with_stdio(false); cin.tie(NULL)
@@ -27,26 +27,22 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
+const int MOD = 1000000007;
 
+int N, K;
 
-//Requires a vector of prime numvers prim
-
-ll tot(ll x){
-	ll ans = x;
-	for(auto z: prim){
-		if(z*z > x) break;
-		if(x%z == 0){
-			while(x%z == 0){
-				x /= z;
-			}
-			ans -= ans/z;
-		}
-	}
-	if(x != 1) ans -= ans/x;
-	return ans;
+ll fastxp(ll a, ll x){
+	if(x == 0) return 1;
+	if(x == 1) return a;
+	return (fastxp((a*a)%MOD, x/2)*((x&1)?a:1))%MOD;
 }
 
+ll fastsum(int n, int k){
+	if(n <= 1) return n;
+	return (fastxp(2, k)*fastsum(n/2, k))%MOD;
+}
 
 int main(){
-
+	cin >> N >> K;
+	cout << fastsum(N, K) << "\n";
 }

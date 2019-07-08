@@ -28,10 +28,10 @@ typedef pair<ll,ll> pll;
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
-ll fastxp(ll a, int x){
+ll fastxp(ll a, int x, int mod){
 	if(x == 0) return 1;
 	if(x == 1) return a;
-	return (x%2==0?fastxp(a*a, x/2):fastxp(a*a, x/2)*a);
+	return (fastxp((a*a)%mod, x/2, mod)*((x&1)?a:1))%mod;
 }
 
 

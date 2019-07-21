@@ -27,7 +27,35 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
+const ll MOD = 998244353;
+
+
+ll solve(int w, int h){
+	if(w == 1){
+		ll ans = 4;
+		fr(i, h-1){ ans*=2;
+			ans %= MOD;
+		}
+		return ans;
+	}
+
+	if(h == 1){
+		ll ans = 4;
+		fr(i, w-1){ ans*=2;
+			ans %= MOD;
+		}
+		return ans;
+	}
+
+	return (4*solve(w-1, h-1))%MOD;
+
+}
+
 
 int main(){
+
+	int w, h; cin >> w >> h;
+
+	cout << solve(w, h) << endl;
 
 }

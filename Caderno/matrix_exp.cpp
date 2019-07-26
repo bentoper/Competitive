@@ -34,11 +34,11 @@ matrix operator *(matrix a, matrix b) {
 
 matrix id(ll n) {
 	matrix c(n, vector<ll>(n));
-	for(int i = 0; i < n; i++) c[i][i] = 1;
+	for(ll i = 0; i < n; i++) c[i][i] = 1;
 	return c;
 }
 
-matrix matrixExp(matrix a, int n) {
+matrix matrixExp(matrix a, ll n) {
 	if (n == 0) return id(a.size());
 	matrix c = matrixExp(a, n/2);
 	c = c*c;

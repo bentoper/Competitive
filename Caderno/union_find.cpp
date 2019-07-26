@@ -12,11 +12,11 @@ int find(int x){
 void join(int x, int y){
 	if((x = find(x)) == (y = find(y))) return;
 
-	if(peso[x] > peso[y]) swap(px);
+	if(peso[x] > peso[y]) swap(x, y);
 
-	pai[px] = py;
-	if(peso[px] == peso[py]) peso[py]++;
-	qnt[py] += qnt[px];
+	pai[x] = y;
+	if(peso[x] == peso[y]) peso[y]++;
+	qnt[y] += qnt[x];
 
 }
 

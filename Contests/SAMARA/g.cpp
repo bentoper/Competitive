@@ -35,45 +35,34 @@ int vis[MAXN], n, q;
 
 map<pii, int> id;
 
-struct edge{
-	int x, w;
-};
+vii edges[MAXN];
 
-vector<edge> edges[MAXN];
-
-void dfs(int i, int mx){
+void dfs(int i, pii mx){
+	
 	vis[i] = 1;
-	int mn = INT_MAX, maximilian = 0, idx = -1;
 
-	for(auto e: edges[i]){
-		if(vis[e.x]) continue;
-		maximilian = max(maximilian, e.w);
-	}
+	int plc = INF;
+	
+	sort(all(edges[i]));
 
-	if(maximilian >= mx){
-		for(auto e: edges[i]){
-			if(vis[e.x] || e.w < mx) continue;
-			mn = min(mn, e.w);
-			dfs(e.x, max(mx, e.w));
+	int qnt = edges[i].size(); 
+
+	for(int j = qnt - 1; j >= 0; j--){
+		pii e = edges[i][j];
+		swap(e.first, e.second);
+		if(vis[e.first]) continue;
+		if(e.second < mx.second) dfs(e.first, mp(e.snd + 1, mx.snd));
+		else if(j == 0){
+			v.pb(mx);
+			id[mx] = i;
 		}
-		
-		if(mn >= mx + 1) v.pb({mx + 1, mn});
-
-		id[{mx + 1, mn}] = i;	
+		mx.snd = min(mx.snd, e.snd);
 	}
 
-	else{
-		for(auto e: edges[i]){
-			if(vis[e.x] || e.w != maximilian) continue;
-			mn = min(mn, e.w);
-			dfs(e.x, max(mx, e.w));
-		}
-		
-		if(mn >= mx + 1) v.pb({mx + 1, mn});
-
-		id[{mx + 1, mn}] = i;	
-	}
-
+	if(mx.snd >= mx.first){
+		v.pb(mx);
+		id[mx] = i;
+	} 	
 }
 
 
@@ -87,14 +76,14 @@ int main(){
 			vis[i] = 0;
 			int u, v, w;
 			scanf("%d%d%d", &u, &v, &w);
-			edges[u].pb({v, w});
-			edges[v].pb({u, w});
+			edges[u].pb({w, v});
+			edges[v].pb({w, u});
 
 		}
 
 		vis[n] = 0;
 
-		dfs(1, 0);
+		dfs(1, mp(1, INF));
 		sort(all(v));
 		ll ans = 0;
 		int vaca = v.size();

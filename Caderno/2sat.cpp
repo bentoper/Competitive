@@ -42,7 +42,8 @@ int dfs(int v){
 }
 
 int neg(int i){
-	return i + ((i > qnt)?qnt:-qnt); 
+	if(i <= qnt/2) return i + qnt/2;
+	return i - qnt/2; 
 }
 
 
@@ -61,10 +62,10 @@ void add_xor(int i, int j){
 }
 
 bool sat(){
-	for(int i = 1; i<= 2*qnt; i++){
+	for(int i = 1; i<= qnt; i++){
 		if(pre[i] == -1) dfs(i);
 	}
-	for(int i = 1; i <= qnt; i++){
+	for(int i = 1; i <= qnt/2; i++){
 		if(id[i] == id[neg(i)]) return false;
 		eval[i] = id[i] > id[neg(i)];
 		eval[neg(i)] = !eval[i];

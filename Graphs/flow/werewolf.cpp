@@ -117,7 +117,7 @@ int main() {
 		}
 		int ans = 0;
 		frr(i, n){
-			if(freq[i] == 0 || freq[i] == 1){ 
+			if(freq[i] == 0){ 
 				ans++;
 				continue;
 			}

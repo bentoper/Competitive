@@ -32,12 +32,12 @@ const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
 
+int frv[MAXN], sndv[MAXN];
+
 int ned, first[MAXN], work[MAXN], dist[MAXN], q[MAXN];
 int to[MAXM], nxt[MAXM], n;
 
 int freq[MAXN];
-
-bool can[MAXN];
 
 ll cap[MAXM];
 
@@ -103,44 +103,31 @@ ll dinic(int s, int t) {
 
 int main() {
 	while(scanf("%d", &n) == 1){
-		ms(freq, 0);
-		ms(can, true);
-		frr(i, n){
-			adj[i].clear();
-			int f, s;
-			scanf("%d%d", &f, &s);
-			freq[s]++;
-			freq[f]++;
-			can[s] = (freq[s] < n/2 + 1);
-			can[f] = (freq[f] < n/2 + 1);
-			adj[i].pb(s); adj[i].pb(f);
-		}
 		int ans = 0;
+		ms(freq, 0);
 		frr(i, n){
-			if(freq[i] == 0){ 
-				ans++;
-				continue;
-			}
-			if(can[i]){
-				init();
-				int f1 = adj[i][0], f2 = adj[i][1];
-				frr(j, n){
-					if(j == i){
-						continue;
-					}
-					int a = adj[j][0], b = adj[j][1];
-					if(a == i || b == i) continue;
-					add(0, j, 1);
-					add(j, n + a, 1);
-					add(j, n + b, 1);
-					if(j == f1 || j == f2) add(n + j, 2*n + 1, freq[i] - 2);
-					else add(n + j, 2*n + 1, freq[i] - 1);
+			scanf("%d%d", &frv[i], &sndv[i]);
+			freq[frv[i]]++;
+			freq[sndv[i]]++;
+		}
+		frr(i, n){
+			int aa = frv[i], bb = sndv[i];
+			init();
+			frr(j, n){
+				if(i == j) {add(i + n, 2*n + 1, freq[i]); continue;}
+				add(0, j, 1);
+				if(j == aa || j == bb){
+					add(n + j, 2*n + 1, freq[i] - 2);
 				}
-				if(dinic(0, 2*n+1) == n - freq[i] - 1) can[i] = false;
-				else{
-					ans++;
-				}
+				else add(n + j, 2*n + 1, freq[i] - 1);
+				int aaa = frv[j], bbb = sndv[j];
+				if(aaa == i || bbb == i) {add(j, i + n, 1); continue;}
+				add(j, aaa + n, 1);
+				add(j, bbb + n, 1);
 			}
+			int plc = dinic(0, 2*n + 1);
+			//printf("dinicao = %d\n", plc);  
+			if(plc != n - 1) ans++;
 		}
 		printf("%d\n", ans);
 	}

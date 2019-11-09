@@ -29,15 +29,13 @@ typedef pair<ll,ll> pll;
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
-#define MAXN 812345 //twice amount of stuff
+#define MAXN 412345 //twice amount of stuff
 
 ll clk = 0, qnt = 0;
 
 int low[MAXN], pre[MAXN], id[MAXN], numSCC = 0;
 
-int r[MAXN];
-
-vector<int> adj[MAXN], rms[MAXN];
+vector<int> adj[MAXN];
 
 stack<int> nodes;
 
@@ -93,7 +91,7 @@ void force_var(int i){
 	add_imp(neg(i), i);
 }
 
-void  add_iff(int i, int j){
+void add_iff(int i, int j){
 	add_imp(i, j);
 	add_imp(neg(i), neg(j));
 	add_imp(j, i);
@@ -112,27 +110,38 @@ bool sat(){
 
 }
 
+void init(int sz){
+	qnt = 2*sz;
+	clk = 0;
+	numSCC = 0;
+	frr(i, qnt){
+		adj[i].clear();
+		pre[i] = -1;
+	}
+}
+
 int main(){
-    int n, m;
-    ms(pre, -1);
-    scanf("%d%d", &n, &m);
-    frr(i, n){
-        scanf("%d", &r[i]);
-    }
-    frr(i, m){
-        int q; scanf("%d", &q);
-        fr(j, q){
-            int a; scanf("%d", &a);
-            rms[a].pb(i);
-        }
-    }
-    qnt = 2*m;
-    frr(a, n){
-        if(r[a] == 0){
-            add_xor(rms[a][0], rms[a][1]);
-        }
-        else add_iff(rms[a][0], rms[a][1]);
-    }
-    if(sat()) printf("YES\n");
-    else printf("NO\n");
+	int n, m;
+	while(scanf("%d%d", &m, &n) && n != 0){
+		init(n);
+		fr(i, m){
+			int x, y, s, t;
+			scanf("%d%d%d%d", &x, &y, &s, &t);
+			if(x != 0 && y != 0){
+				add_or(x, y);
+			}
+			else if(x == 0 && y != 0) force_var(y);
+			else if(y == 0 && x != 0) force_var(x);
+			
+			if(s != 0 && t != 0) add_or(neg(s), neg(t));
+			else if(s == 0 && t != 0) force_var(neg(t));
+			else if(s != 0 && t == 0) force_var(neg(s));
+			
+		}
+		if(sat()){
+			printf("yes\n");
+		}
+		else printf("no\n");
+	}
+    
 }

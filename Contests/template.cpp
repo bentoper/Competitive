@@ -8,14 +8,12 @@ using namespace std;
 
 #define fr(i,n) 	for(int i=0;i<n;i++)
 #define frr(i,n)	for(int i=1;i<=n;i++)
+#define pv(x, n)    fr(i, n) printf("%d%c", x[i], i==n-1);
 
 #define ms(x,i)	memset(x,i,sizeof(x))
 #define dbg(x)	cout << #x << " = " << x << endl
 #define all(x)	x.begin(),x.end()
-#define otp(x) cout << x << endl;
-#define rvr(x) int x; scanf("%d", &x);
-#define gnl cout << endl
-#define olar cout << "olar" << endl
+#define gnl printf("\n");
 #define fastio ios_base::sync_with_stdio(false); cin.tie(NULL)
 
 typedef long long int ll;

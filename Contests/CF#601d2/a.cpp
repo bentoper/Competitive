@@ -8,13 +8,12 @@ using namespace std;
 
 #define fr(i,n) 	for(int i=0;i<n;i++)
 #define frr(i,n)	for(int i=1;i<=n;i++)
-#define pv(x, n)    fr(i, n) printf("%d%c", x[i], " \n"[i==n-1])
 
 #define ms(x,i)	memset(x,i,sizeof(x))
 #define dbg(x)	cout << #x << " = " << x << endl
 #define all(x)	x.begin(),x.end()
 #define otp(x) cout << x << endl;
-#define rvr(x) int x; scanf("%d", &x)
+#define rvr(x) int x; scanf("%d", &x);
 #define gnl cout << endl
 #define olar cout << "olar" << endl
 #define fastio ios_base::sync_with_stdio(false); cin.tie(NULL)
@@ -28,7 +27,28 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
-
+ll a, b;
 int main(){
-
+    int t; cin >> t;
+    while(t--){
+    cin >> a >> b;
+    if(a > b) swap(a, b);
+    ll ans = 0;
+    if(b >= a + 5){
+        int y = (b-a)/5;
+        a = a + y*5;
+        ans += y;
+    }
+    if(b >= a + 2){
+        int y = (b-a)/2;
+        a = a + y*2;
+        ans += y;
+    }
+    if(b >= a + 1){
+        int y = (b-a)/1;
+        a = a + y*1;
+        ans += y;
+    }
+    cout << ans << endl;
+    }
 }

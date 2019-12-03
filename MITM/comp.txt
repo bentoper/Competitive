@@ -1,0 +1,2 @@
+g++     sumall.cpp   -o sumall
+<builtin>: recipe for target 'sumall' failed

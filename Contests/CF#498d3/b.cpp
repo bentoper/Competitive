@@ -28,7 +28,7 @@ const ll llINF = 0x3f3f3f3f3f3f3f;
 const int N = 2123;
 
 
-int n, k, a[N], b[N], f[N]; 
+int n, k, a[N], b[N], freq[N]; 
 
 int main(){
     scanf("%d%d", &n, &k);
@@ -36,27 +36,27 @@ int main(){
         scanf("%d", &a[i]);
         b[i] = a[i];
     }
-    sort(a, a+n);
-    for(int i = n-1, j = 0; i >= 0; j++, i--){
-        if(j < k) f[a[i]]++;
-    }
-    int curr = 0;
-    vi pos;
-    pos.pb(0);
-    fr(i, n){
-        if(f[a[i]] && k){
-            f[a[i]]--;
-            k--;
-            pos.pb(i);
+    int ans = 0;
+    sort(b, b+n);
+    for(int i = n - 1, kk = 0; kk < k; kk++, i--) {ans += b[i]; freq[b[i]]++;}
+    int cnt = 0, i = 0, kk = 0, lst = 0;
+    printf("%d\n", ans);
+    while(i < n){
+        cnt++;
+        if(freq[a[i]]){
+            kk++;
+            if(k == kk){
+                printf("%d\n", n - lst);
+                return 0;
+            }
+            else{
+                printf("%d ", cnt);
+                cnt = 0;
+                lst = i + 1;
+            }
+            freq[a[i]]--;
         }
+        i++;
     }
-    pos.pb(n);
-    int aa = 0;
-    fr(i, k - 1){
-        int pp = pos[i+1] - pos[i];
-        printf("%d ", pp);
-        n -= pp;
-    }
-    printf("%d\n", n);
-    
+
 }

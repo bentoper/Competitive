@@ -28,6 +28,22 @@ typedef pair<ll,ll> pll;
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
-int main(){
+string s;
+stack<int> ps;
+int ans[212345];
 
+int main(){
+    cin >> s;
+    int sz = s.size();
+    fr(i, sz){
+        if(s[i] == '0'){
+            if(!ps.empty()){
+                ans[ps.top()] = 1; 
+                ps.pop();
+            }
+        }
+        else ps.push(i);
+    }
+    fr(i, sz) printf("%d", ans[i]);
+    printf("\n");
 }

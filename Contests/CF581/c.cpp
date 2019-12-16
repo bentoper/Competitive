@@ -17,6 +17,8 @@ using namespace std;
 #define gnl cout << endl
 #define olar cout << "olar" << endl
 #define fastio ios_base::sync_with_stdio(false); cin.tie(NULL)
+#define pv(x, n)    fr(i, n) printf("%d%c", x[i], " \n"[i==n-1])
+
 
 typedef long long int ll;
 typedef pair<int,int> pii;
@@ -27,118 +29,63 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
+const int N = 111;
 
-vi adj[111];
-vi path;
+vi adj[N];
+int n, dist[N][N];
 
 
-vi base;
-int n, dist[111][111];
-
-int memo[1000000];
-
-int nextor[1000000];
-
-int precomp[1000000][100];
-
-void bfs(int v){
-	dist[v][v] = 0;
-
+void bfs(int r){
+	dist[r][r] = 0;
 	queue<int> q;
-	q.push(v);
+	q.push(r);
 	while(!q.empty()){
-		int pai = q.front();
+		int u = q.front();
 		q.pop();
-		for(auto u: adj[pai]){
-			if(dist[u][v] != -1) continue;
-			dist[u][v] = dist[pai][v] + 1;
-			q.push(u);
+		for(auto v: adj[u]){
+			if(dist[r][v] > dist[r][u] + 1){
+				dist[r][v] = dist[r][u] + 1;
+				q.push(v);
+			}
 		}
 	}
-}
-
-
-int dp(int i, int sz){
-
-	if(i == sz-1) return 1;
-
-	if(memo[i] == -1){
-		memo[i] = INF;
-		for(int j = 1; j <= n;j++){
-			if(j == path[i]){
-				continue;
-			}
-			int pos = precomp[i][j-1];
-			if(pos == -1) continue;
-			if(pos - i == dist[j][path[i]]){
-				int plc = 1 + dp(pos, sz);
-				if(plc < memo[i]){
-					memo[i] = plc;
-					nextor[i] = pos; 
-				}
-				
-			}
-		}	
-	}
-
-	return memo[i];
 }
 
 int main(){
-	cin >> n;
+	scanf("%d", &n);
 	frr(i, n){
 		frr(j, n){
-			char c; cin >> c;
-			if(c == '1'){
-				adj[i].pb(j);
-			}
-			dist[i][j] = -1;
+			char a;
+			do{
+				scanf("%c", &a);
+			}while(a != '1' && a != '0');
+			if(a == '1') adj[i].pb(j); 
+			dist[i][j] = INF;
 		}
-	}
-	int sz; cin >> sz;
-	int frst, last;
-	
-	fr(i, sz){
-		int c; cin >> c;
-		
-		if(i == 0) frst = c;
-		if(i == sz-1) last = c;
-		path.pb(c);
-		memo[i] = -1;
-	}
-
-	for(int i = sz-1; i >= 0; i--){
-		frr(j, 100){
-			if(i == sz - 1) precomp[i][j-1] = -1; 
-			else precomp[i][j-1] = precomp[i+1][j-1]; 
-		}
-		precomp[i][path[i] - 1] = i;
 	}
 
 	frr(i, n) bfs(i);
 
+	int spth; scanf("%d", &spth);
+	vi path;
 
-	base.pb(path[sz-1]);
-	cout << dp(0, sz) << endl;
-	nextor[sz-1] = -1;
+	fr(i, spth){
+		int a; scanf("%d", &a); path.pb(a);
+	} 
 
-
-	int nxt = 0;
-	bool first = true;
-	while(nxt != -1){
-		if(!first) cout << " ";
-		first = false;
-		cout << path[nxt];
-		nxt = nextor[nxt];
+	vi ans;
+	int i = 0, j = 0;
+	ans.pb(path[0]);
+	while(j < spth){
+		while(j < spth && dist[path[i]][path[j]] == j - i) j++;
+		j--;
+		ans.pb(path[j]);
+		i = j;
+		j = i+1;
 	}
-
-	cout << endl;
-
-
+	printf("%d\n", (int)ans.size());
+	pv(ans, ans.size());
 }
-
-
-
 
 
 

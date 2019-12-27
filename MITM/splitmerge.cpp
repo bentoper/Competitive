@@ -92,31 +92,17 @@ class SplitAndMergeGame{
     public:
     
     int minMoves(vector <int> startState, vector <int> finishState){
-        vi base;
+        
         int sa = 0, sb = 0;
-        int zz = finishState.size();
-        fr(i, startState.size()){
-            fr(j, zz){
-                if(startState[i] == finishState[j]){
-                    swap(finishState[j], finishState[zz-1]);
-                    finishState.pop_back();
-                    break;
-                }
-                else if(j == zz - 1){
-                    base.push_back(startState[i]);
-                }
-            }
-        }
-
-        fr(i, base.size()) sa += base[i];
+        fr(i, startState.size()) sa += startState[i];
         fr(i, finishState.size()) sb += finishState[i];
 
         if(sa != sb){
             return -1;
         }
 
-        build(base);
-        return(base.size() + zz - 2*solve(finishState));
+        build(startState);
+        return(startState.size() + finishState.size() - 2*solve(finishState));
     }
 };
 

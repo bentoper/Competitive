@@ -105,9 +105,3 @@ class SplitAndMergeGame{
         return(startState.size() + finishState.size() - 2*solve(finishState));
     }
 };
-
-int main(){
-    vi a = {33, 12, 17, 19, 22, 14}, b = {33 - 16, 12 + 5, 17 + 11, 6, 31, 18};
-    SplitAndMergeGame t;
-    cout << t.minMoves(a, b) << endl;
-}

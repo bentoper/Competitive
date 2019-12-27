@@ -1,4 +1,4 @@
-//https://www.hackerrank.com/contests/world-codesprint-april/challenges/gena/problem
+//https://arena.topcoder.com/#/u/practiceCode/1665/5848/6449/1/1665
 #include <bits/stdc++.h>
 using namespace std;
 

@@ -8,12 +8,13 @@ using namespace std;
 
 #define fr(i,n) 	for(int i=0;i<n;i++)
 #define frr(i,n)	for(int i=1;i<=n;i++)
+#define pv(x, n)    fr(i, n) printf("%d%c", x[i], " \n"[i==n-1])
 
 #define ms(x,i)	memset(x,i,sizeof(x))
 #define dbg(x)	cout << #x << " = " << x << endl
 #define all(x)	x.begin(),x.end()
 #define otp(x) cout << x << endl;
-#define rvr(x) int x; scanf("%d", &x);
+#define rvr(x) int x; scanf("%d", &x)
 #define gnl cout << endl
 #define olar cout << "olar" << endl
 #define fastio ios_base::sync_with_stdio(false); cin.tie(NULL)
@@ -27,29 +28,23 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
-const int N = 1123;
+const int N = 2e5 + 1;
 
-int a[N][N];
+int c, a[N], b[N];
 int n;
 
 int main(){
-	scanf("%d", &n);
-    pii k[] = {mp(0, 0), mp(0, n/2), mp(n/2, 0), mp(n/2, n/2)};
-    fr(l, 4){
-        fr(i, n/2){
-            fr(j, n/2){
-                a[i+k[l].first][j+k[l].second] = (i*(n/2) + j)*4 + l;
-            }
-        }
-    }
+    scanf("%d%d", &n, &c);
+    frr(i, n-1) scanf("%d", &a[i]);   
+    frr(i, n-1) scanf("%d", &b[i]);
+    int s = 0, e = 0;
     fr(i, n){
-        fr(j, n){
-            printf("%d%c", a[i][j], " \n"[j==n-1]);
-        }
-    }
-
+        int ss, ee;
+        ss = (min(s, e) + a[i]);
+        if(i != 1) ee = (min(e + b[i], s + c + b[i]));
+        else ee = b[i] + c;
+        printf("%d%c", min(ss, ee), " \n"[i==n-1]);
+        s = ss;
+        e = ee;
+    }  
 }
-
-
-
-

@@ -8,12 +8,13 @@ using namespace std;
 
 #define fr(i,n) 	for(int i=0;i<n;i++)
 #define frr(i,n)	for(int i=1;i<=n;i++)
+#define pv(x, n)    fr(i, n) printf("%d%c", x[i], " \n"[i==n-1])
 
 #define ms(x,i)	memset(x,i,sizeof(x))
 #define dbg(x)	cout << #x << " = " << x << endl
 #define all(x)	x.begin(),x.end()
 #define otp(x) cout << x << endl;
-#define rvr(x) int x; scanf("%d", &x);
+#define rvr(x) int x; scanf("%d", &x)
 #define gnl cout << endl
 #define olar cout << "olar" << endl
 #define fastio ios_base::sync_with_stdio(false); cin.tie(NULL)
@@ -27,29 +28,16 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
-const int N = 1123;
-
-int a[N][N];
-int n;
 
 int main(){
-	scanf("%d", &n);
-    pii k[] = {mp(0, 0), mp(0, n/2), mp(n/2, 0), mp(n/2, n/2)};
-    fr(l, 4){
-        fr(i, n/2){
-            fr(j, n/2){
-                a[i+k[l].first][j+k[l].second] = (i*(n/2) + j)*4 + l;
-            }
+    int t; cin >> t;
+    while(t--){
+        int r, g, b; cin >> r >> g >> b;
+        ll sm = (ll) r + (ll) g + (ll) b;
+        sm -= (ll)max(r, max(g, b));
+        if(sm + 1 < max(r, max(g, b))){
+            cout << "No\n";
         }
+        else cout << "Yes\n";
     }
-    fr(i, n){
-        fr(j, n){
-            printf("%d%c", a[i][j], " \n"[j==n-1]);
-        }
-    }
-
 }
-
-
-
-

@@ -8,12 +8,13 @@ using namespace std;
 
 #define fr(i,n) 	for(int i=0;i<n;i++)
 #define frr(i,n)	for(int i=1;i<=n;i++)
+#define pv(x, n)    fr(i, n) printf("%d%c", x[i], " \n"[i==n-1])
 
 #define ms(x,i)	memset(x,i,sizeof(x))
 #define dbg(x)	cout << #x << " = " << x << endl
 #define all(x)	x.begin(),x.end()
 #define otp(x) cout << x << endl;
-#define rvr(x) int x; scanf("%d", &x);
+#define rvr(x) int x; scanf("%d", &x)
 #define gnl cout << endl
 #define olar cout << "olar" << endl
 #define fastio ios_base::sync_with_stdio(false); cin.tie(NULL)
@@ -27,29 +28,40 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
-const int N = 1123;
+const int N = 2e6 + 1;
 
-int a[N][N];
-int n;
+
+int n, m, a[N];
+
+vector<vll> sm;
 
 int main(){
-	scanf("%d", &n);
-    pii k[] = {mp(0, 0), mp(0, n/2), mp(n/2, 0), mp(n/2, n/2)};
-    fr(l, 4){
-        fr(i, n/2){
-            fr(j, n/2){
-                a[i+k[l].first][j+k[l].second] = (i*(n/2) + j)*4 + l;
-            }
-        }
-    }
+    scanf("%d%d", &n, &m);
     fr(i, n){
-        fr(j, n){
-            printf("%d%c", a[i][j], " \n"[j==n-1]);
+        scanf("%d", &a[i]);
+    }
+    sm.resize(m);
+    sort(a, a+n);
+    int i = 0;
+    while(i < n){
+        if(sm[i%m].empty()){
+            sm[i%m].pb(a[i]);
         }
+        else sm[i%m].pb(sm[i%m][sm[i%m].size() - 1] + (ll)a[i]);
+        i++;
+    }
+    i = 0;
+    ll S = 0;
+    while(i < n){
+        if(i < m){
+            S += (ll)a[i];
+        }
+        else{
+            S += sm[i%m][i/m - 1];
+            S += a[i];
+        }
+        printf("%lld%c", S, " \n"[i == n-1]);
+        i++;
     }
 
 }
-
-
-
-

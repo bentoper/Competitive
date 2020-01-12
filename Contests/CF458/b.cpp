@@ -8,10 +8,8 @@ using namespace std;
 
 #define fr(i,n) 	for(int i=0;i<n;i++)
 #define frr(i,n)	for(int i=1;i<=n;i++)
-#define pv(x, n)    fr(iii, n) printf("%d%c", x[iii], " \n"[iii==n-1])
-#define pvv(x, n)    frr(iii, n) printf("%d%c", x[iii], " \n"[iii==n])
-#define vp(v)        pv(v, v.size()) 
-
+#define pv(x, n)    fr(i, n) printf("%d%c", x[i], " \n"[i==n-1])
+#define pvv(x, n)    frr(i, n) printf("%d%c", x[i], " \n"[i==n])
 
 #define ms(x,i)	memset(x,i,sizeof(x))
 #define dbg(x)	cout << #x << " = " << x << endl
@@ -31,7 +29,25 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
+const int N = 1e5 + 1;
+
+int n, freq[N];
+
+vi a;
 
 int main(){
+    scanf("%d", &n);
+    fr(i, n) {int vv; scanf("%d", &vv); freq[vv]++, a.pb(vv);}
+    sort(all(a));
+    unique(all(a));
+    auto it = a.end();
+    for(it--; ; it--){
+        if(freq[*it]%2){
+            printf("Conan\n");
+            return 0;
+        }
+        if(it == a.begin()) break;
+    }
+    printf("Agasa\n");
 
 }

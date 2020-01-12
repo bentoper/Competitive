@@ -8,10 +8,7 @@ using namespace std;
 
 #define fr(i,n) 	for(int i=0;i<n;i++)
 #define frr(i,n)	for(int i=1;i<=n;i++)
-#define pv(x, n)    fr(iii, n) printf("%d%c", x[iii], " \n"[iii==n-1])
-#define pvv(x, n)    frr(iii, n) printf("%d%c", x[iii], " \n"[iii==n])
-#define vp(v)        pv(v, v.size()) 
-
+#define pv(x, n)    fr(i, n) printf("%d%c", x[i], " \n"[i==n-1])
 
 #define ms(x,i)	memset(x,i,sizeof(x))
 #define dbg(x)	cout << #x << " = " << x << endl
@@ -32,6 +29,24 @@ typedef pair<ll,ll> pll;
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
-int main(){
+map<string, int> m;
 
+int main(){
+    int t; cin >> t;
+    while(t--){
+        m.clear();
+        int n; cin >> n;
+        fr(i, n){
+            string s, t;
+            cin >> s >> t;
+            if(m[t] == 0) m[t]++;
+            m[t]++;
+        }
+        ll ans = 1;
+        for(auto p: m){
+            ans *= (ll)(p.second); 
+        }
+        cout << ans - 1 << endl;
+    }
 }
+

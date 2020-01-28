@@ -1,4 +1,4 @@
-//https://www.spoj.com/problems/GCDEX/
+//https://codeforces.com/contest/919/problem/E
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -32,41 +32,65 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
-const int MAX_SIEVE = 1000002;
+const int MAX_SIEVE = 1e6 + 2;
 
 vector<int> prim;
-int mark[MAX_SIEVE], phi[MAX_SIEVE];
-
-ll phipref[MAX_SIEVE], ans[MAX_SIEVE];
+int mark[MAX_SIEVE];
 	
 void crivo(){
-    phi[1] = 1;
-    phipref[1] = 1;
 	for(int i = 2; i < MAX_SIEVE; i++){
-		if(!mark[i]) prim.pb(i), phi[i] = i-1;
-        phipref[i] = phipref[i-1] + (ll)phi[i];
+		if(!mark[i]) prim.pb(i);
 		for(int p: prim){
 			if(i*p >= MAX_SIEVE) break;
 			mark[i*p] = 1;
-			if(i%p == 0) {
-                phi[i*p] = phi[i]*p;
-                break;
-            }
-            phi[i*p] = phi[i]*(p-1);
+			if(i%p == 0) break;
 		}
 	}
 }
 
+int c[MAX_SIEVE];
+
 int main(){
-    crivo();
-    ll n;
-    while(scanf("%lld", &n) && n != 0){
-        ll G = 0;
-        for(ll i = 1ll; i*i <= n; i++){
-            //printf("n/i %lld phipref[n/i] %lld phipref[n/(i+1)] %lld\n", n/i, phipref[n/i], phipref[n/(i+1)]);
-            G += (((n/i)*(n/i - 1ll))/2ll)*phi[i];
-            if(n/i != i) G += (phipref[n/i] - phipref[n/(i+1)])*((i*(i - 1ll))/2ll); 
-        }
-        printf("%lld\n", G);
-    }
+	crivo();
+    int n, k;
+	scanf("%d%d", &n, &k);
+	fr(i, n){
+		scanf("%d", &c[i]);
+	}
+	bool wrk = true;
+	for(auto p: prim){
+		if(p*p > k) continue;
+		if(k%p != 0) continue;
+		int plc = 1;
+		while(k%p == 0){
+			k /= p;
+			plc *= p;
+		}
+		bool deu = false;
+		fr(i, n){
+			if(c[i]%plc == 0){
+				deu = true;
+				break;
+			}
+		}
+		if(!deu){
+			wrk = false;
+			break;
+		}
+	}
+	bool deu = false;
+	if(k != 1){
+		fr(i, n){
+			if(c[i]%k == 0){
+				deu = true;
+				break;
+			}
+		}
+	}
+	else deu = true;
+	if(!deu) wrk = false;
+	if(wrk){
+		printf("Yes\n");
+	}
+	else printf("No\n");
 }

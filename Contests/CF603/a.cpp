@@ -1,4 +1,3 @@
-//https://www.spoj.com/problems/GCDEX/
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -32,41 +31,34 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
-const int MAX_SIEVE = 1000002;
-
-vector<int> prim;
-int mark[MAX_SIEVE], phi[MAX_SIEVE];
-
-ll phipref[MAX_SIEVE], ans[MAX_SIEVE];
-	
-void crivo(){
-    phi[1] = 1;
-    phipref[1] = 1;
-	for(int i = 2; i < MAX_SIEVE; i++){
-		if(!mark[i]) prim.pb(i), phi[i] = i-1;
-        phipref[i] = phipref[i-1] + (ll)phi[i];
-		for(int p: prim){
-			if(i*p >= MAX_SIEVE) break;
-			mark[i*p] = 1;
-			if(i%p == 0) {
-                phi[i*p] = phi[i]*p;
-                break;
-            }
-            phi[i*p] = phi[i]*(p-1);
-		}
-	}
-}
 
 int main(){
-    crivo();
-    ll n;
-    while(scanf("%lld", &n) && n != 0){
-        ll G = 0;
-        for(ll i = 1ll; i*i <= n; i++){
-            //printf("n/i %lld phipref[n/i] %lld phipref[n/(i+1)] %lld\n", n/i, phipref[n/i], phipref[n/(i+1)]);
-            G += (((n/i)*(n/i - 1ll))/2ll)*phi[i];
-            if(n/i != i) G += (phipref[n/i] - phipref[n/(i+1)])*((i*(i - 1ll))/2ll); 
+    int t; cin >> t;
+    while(t--){
+        int c[3];
+        cin >> c[0] >> c[1] >> c[2];
+        sort(c, c+3);
+        int ans = 0;
+        if(1){
+            if(c[0] >= c[2] - c[1]){
+                ans += c[2] - c[1];
+                c[2] = c[1];
+                c[0] -= ans;
+            }
+            else{
+                c[2] -= c[0];
+                ans += c[0];
+                c[0] = 0; 
+            }
+            if(c[0]%2 == 0){
+                ans += c[0];
+                ans += min(c[1] - c[0]/2, c[2] - c[0]/2);
+            }
+            else{
+                ans += c[0] - 1;
+                ans += min(c[1] - c[0]/2, c[2] - c[0]/2);
+            }
         }
-        printf("%lld\n", G);
+        printf("%d\n", ans);
     }
 }

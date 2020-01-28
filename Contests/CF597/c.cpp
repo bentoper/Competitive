@@ -1,4 +1,3 @@
-//https://www.spoj.com/problems/GCDEX/
 #include <bits/stdc++.h>
 using namespace std;
 
@@ -32,41 +31,49 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
-const int MAX_SIEVE = 1000002;
+const int mod = 1e9 + 7;
+const int MAX = 1e5 + 1;
+string s;
+vi qnt;
+int sz;
 
-vector<int> prim;
-int mark[MAX_SIEVE], phi[MAX_SIEVE];
+map<pii, ll> fac;
 
-ll phipref[MAX_SIEVE], ans[MAX_SIEVE];
-	
-void crivo(){
-    phi[1] = 1;
-    phipref[1] = 1;
-	for(int i = 2; i < MAX_SIEVE; i++){
-		if(!mark[i]) prim.pb(i), phi[i] = i-1;
-        phipref[i] = phipref[i-1] + (ll)phi[i];
-		for(int p: prim){
-			if(i*p >= MAX_SIEVE) break;
-			mark[i*p] = 1;
-			if(i%p == 0) {
-                phi[i*p] = phi[i]*p;
-                break;
-            }
-            phi[i*p] = phi[i]*(p-1);
-		}
-	}
+ll memo[MAX];
+
+ll dp(int i){
+    if(i == 0) return 1;
+    if(i == 1) return 1;
+    if(memo[i] != -1) return memo[i];
+    return memo[i] = (dp(i-1) + dp(i-2))%mod;
 }
 
 int main(){
-    crivo();
-    ll n;
-    while(scanf("%lld", &n) && n != 0){
-        ll G = 0;
-        for(ll i = 1ll; i*i <= n; i++){
-            //printf("n/i %lld phipref[n/i] %lld phipref[n/(i+1)] %lld\n", n/i, phipref[n/i], phipref[n/(i+1)]);
-            G += (((n/i)*(n/i - 1ll))/2ll)*phi[i];
-            if(n/i != i) G += (phipref[n/i] - phipref[n/(i+1)])*((i*(i - 1ll))/2ll); 
+    ms(memo, -1);
+    string s; cin >> s;
+    int n = s.size(), sz = n;
+    fr(i, n){
+        if(s[i] == 'w' || s[i] == 'm'){
+            cout << "0\n";
+            return 0;
         }
-        printf("%lld\n", G);
+        if(s[i] == 'u' || s[i] == 'n'){
+            char curr = s[i];
+            int cnt = 0;
+            do{
+                i++;
+                cnt++;
+            }while(i < n && s[i] == curr);
+            i--;
+            qnt.pb(cnt);
+        }
     }
+    ll ans = 1;
+    for(auto f: qnt){
+        if(f == 1) continue;
+        ll plc = dp(f);
+        ans *= plc;
+        ans %= mod;   
+    }
+    cout << ans << endl;
 }

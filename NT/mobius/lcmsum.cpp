@@ -34,39 +34,41 @@ const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 const int MAX_SIEVE = 1000002;
 
-vector<int> prim;
-int mark[MAX_SIEVE], phi[MAX_SIEVE];
+vector<ll> prim;
+int mark[MAX_SIEVE];
 
-ll phipref[MAX_SIEVE], ans[MAX_SIEVE];
+ll phi[MAX_SIEVE];
 	
 void crivo(){
     phi[1] = 1;
-    phipref[1] = 1;
-	for(int i = 2; i < MAX_SIEVE; i++){
+	for(ll i = 2; i < MAX_SIEVE; i++){
 		if(!mark[i]) prim.pb(i), phi[i] = i-1;
-        phipref[i] = phipref[i-1] + (ll)phi[i];
-		for(int p: prim){
+		for(ll p: prim){
 			if(i*p >= MAX_SIEVE) break;
 			mark[i*p] = 1;
 			if(i%p == 0) {
                 phi[i*p] = phi[i]*p;
                 break;
             }
-            phi[i*p] = phi[i]*(p-1);
+            phi[i*p] = phi[i]*phi[p];
 		}
 	}
 }
 
 int main(){
     crivo();
-    ll n;
-    while(scanf("%lld", &n) && n != 0){
-        ll G = 0;
-        for(ll i = 1ll; i*i <= n; i++){
-            //printf("n/i %lld phipref[n/i] %lld phipref[n/(i+1)] %lld\n", n/i, phipref[n/i], phipref[n/(i+1)]);
-            G += (((n/i)*(n/i - 1ll))/2ll)*phi[i];
-            if(n/i != i) G += (phipref[n/i] - phipref[n/(i+1)])*((i*(i - 1ll))/2ll); 
+    int t; scanf("%d", &t);
+    while(t--){
+        int n; scanf("%d", &n);
+        ll ans = 0;
+        for(ll i = 1; i*i <= n; i++){
+            if(n%i == 0){
+                ans += (phi[i]*i) + 1ll;
+                if(n/i != i) ans += phi[n/i]*(n/i) + 1ll;
+            }
         }
-        printf("%lld\n", G);
+        ans /= 2ll;
+        ans *= n;
+        printf("%lld\n", ans);
     }
 }

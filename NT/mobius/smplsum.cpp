@@ -1,4 +1,4 @@
-//http://www.spoj.com/problems/GCDEX/
+//https://www.codechef.com/NOV15/problems/SMPLSUM
 #include <bits/stdc++.h>
 using namespace std;
 

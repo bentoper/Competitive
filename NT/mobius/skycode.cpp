@@ -1,5 +1,9 @@
-//https://www.spoj.com/problems/LCMSUM/ 
-#include <bits/stdc++.h>
+//http://poj.org/problem?id=3904
+#include <stdio.h>
+#include <stdlib.h>
+#include <cstring>
+#include <vector>
+
 using namespace std;
 
 #define pb push_back
@@ -32,39 +36,54 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
-const int MAX_SIEVE = 1000002;
+const int MAX_SIEVE = 10001;
 
-vector<ll> prim;
-int mark[MAX_SIEVE];
+vector<int> prim;
 
-ll lp[MAX_SIEVE], phi[MAX_SIEVE], ans[MAX_SIEVE];
+int mark[MAX_SIEVE], u[MAX_SIEVE];
+
+ll freq[MAX_SIEVE];
 	
 void crivo(){
-    phi[1] = 1;
-	for(ll i = 2; i < MAX_SIEVE; i++){
-		if(!mark[i]) prim.pb(i), phi[i] = i-1;
-		for(ll p: prim){
+    u[1] = 1;
+	for(int i = 2; i < MAX_SIEVE; i++){
+		if(!mark[i]) prim.pb(i), u[i] = -1;
+		for(int p: prim){
 			if(i*p >= MAX_SIEVE) break;
 			mark[i*p] = 1;
 			if(i%p == 0) {
-                phi[i*p] = phi[i]*p;
+                u[i*p] = 0;
                 break;
             }
-            phi[i*p] = phi[i]*phi[p];
+            u[i*p] = u[i]*u[p];
 		}
 	}
 }
 
-int main(){
-    crivo();
-    for(ll i = 1; i <= (int)1e6; i++){
-        for(ll j = i; j <= (int)1e6; j += i){
-            ans[j] += phi[i]*i;
+void update(int a){
+    for(int i = 1; i*i <= a; i++){
+        if(a%i == 0){
+            freq[i]++;
+            if(a/i != i) freq[a/i]++;
         }
     }
-    int t; scanf("%d", &t);
-    while(t--){
-        ll n; scanf("%lld", &n);
-        printf("%lld\n", (n*(ans[n]+1ll))/2ll);
-    }
+}
+
+int main(){
+    crivo();
+    int n; 
+    while(scanf("%d", &n) == 1){
+        ms(freq, 0);
+        fr(i, n){
+            int a;
+            scanf("%d", &a);
+            update(a);    
+        }
+        ll ans = 0;
+        frr(i, (int)1e4){
+            if(!freq[i]) continue;
+            ans += (ll)(u[i])*((freq[i]*(freq[i] - 1ll)*(freq[i]-2ll)*(freq[i]-3ll))/24ll);
+        }
+        printf("%lld\n", ans);
+    }   
 }

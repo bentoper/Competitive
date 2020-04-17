@@ -1,63 +1,61 @@
 #include <bits/stdc++.h>
 using namespace std;
-const int MAXN = 1;
+const int N = 1;
 
-int hi[4*MAXN + 1], lo[4*MAXN + 1], seg[4*MAXN + 1], v[MAXN + 1], lazy[4*MAXN + 1];
+int hi[4*N + 1], lo[4*N + 1], seg[4*N + 1], v[N + 1], lazy[4*N + 1];
 
 int update(int a, int b){
 	return OPERACAO;
 }
 
-int build(int node, int start, int end){
-	//Start node value = 1
-	lo[node] = start; hi[node] = end;
+int build(int nd, int start, int end){
+	//Start nd value = 1
+	lo[nd] = start; hi[nd] = end;
 
 	if(start == end){
-		return seg[node] = v[start];
+		return seg[nd] = v[start];
 	}
 
 	int mid = (end+start)/2;
 
-	return seg[node] = update(build(2*node, start, mid), build(2*node + 1, mid + 1, end)); 
+	return seg[nd] = update(build(2*nd, start, mid), build(2*nd + 1, mid + 1, end)); 
 }
 
-void unlazy(int node){
+void unlazy(int nd){
 
 	//Change for what suits the problem
 
 }
 
-int query(int node, int start, int end){
+int query(int nd, int start, int end){
 
-	unlazy(node);
+	unlazy(nd);
 
-	if(hi[node] < start || lo[node] > end) return LIXO;
-	if(lo[node] >= start && hi[node] <= end){
-		return seg[node];
+	if(hi[nd] < start || lo[nd] > end) return LIXO;
+	if(lo[nd] >= start && hi[nd] <= end){
+		return seg[nd];
 	}
 
-	return update(query(2*node, start, end), query(2*node + 1, start, end));
+	return update(query(2*nd, start, end), query(2*nd + 1, start, end));
 
 }
 
-void change(int node, int start, int end, int x){
+void change(int nd, int start, int end, int x){
 
-	unlazy(node);
+	unlazy(nd);
 
-	if(hi[node] < start || lo[node] > end) return;
-	if(lo[node] >= start && hi[node] <= end){
-		lazy[node] = x;
-		unlazy(node);
+	if(hi[nd] < start || lo[nd] > end) return;
+	if(lo[nd] >= start && hi[nd] <= end){
+		lazy[nd] = x;
+		unlazy(nd);
 		return;
 	}
 
-	change(2*node, start, end, x);
-	change(2*node+1, start, end, x);
+	change(2*nd, start, end, x);
+	change(2*nd+1, start, end, x);
 
-	seg[node] = update(seg[2*node], seg[2*node+1]);
+	seg[nd] = update(seg[2*nd], seg[2*nd+1]);
 }
-
-
 int main(){
 
 }

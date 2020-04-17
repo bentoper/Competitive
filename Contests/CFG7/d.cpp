@@ -41,6 +41,19 @@ bool pal(string a){
     }
     return true;
 }
+vector<int> z_function(string s) {
+    int n = (int) s.length();
+    vector<int> z(n);
+    for (int i = 1, l = 0, r = 0; i < n; ++i) {
+        if (i <= r)
+            z[i] = min (r - i + 1, z[i - l]);
+        while (i + z[i] < n && s[z[i]] == s[i + z[i]])
+            ++z[i];
+        if (i + z[i] - 1 > r)
+            l = i, r = i + z[i] - 1;
+    }
+    return z;
+}
 
 int main(){
     int t; cin >> t;
@@ -55,32 +68,54 @@ int main(){
             cout << s << endl;
             continue;
         }
-        string vaca, mst;
-        int ans = 0;
+        string vaca, rev;
         for(int j = st, i = 0; i < plc; i++){
             vaca.push_back(s[j + i]);
-            if(pal(vaca)){
-                ans = i + 1;
-                mst = vaca;
+        }
+        int sz = vaca.size();
+        fr(i, sz){
+            rev.push_back(vaca[sz - 1 - i]);
+        }
+        vaca.pb('&');
+        vaca.append(rev);
+        vi z = z_function(vaca);
+        int ans = -1, mode = 0;
+        fr(i, sz){
+            if(z[i + sz + 1] == sz - i){
+                ans = i;
+                break;
             }
         }
-        vaca.clear();
-        for(int j = n - 1 - st, i = 0; i < plc; i++){
-            vaca.push_back(s[j - i]);
-            if(pal(vaca)){
-                if(i + 1 > ans){
-                    ans = i+1;
-                    mst = vaca;
-                }
+        //cout << "vaca " << vaca << endl;
+        string vaca2;
+        vaca2.append(rev);
+        reverse(all(rev));
+        vaca2.pb('&');
+        vaca2.append(rev);
+        //cout << "vaca2 " << vaca2 << endl;
+
+        z = z_function(vaca2);
+        fr(i, sz){
+            if(z[i + sz + 1] == sz - i && sz - i > sz - ans){
+                ans = i;
+                mode = 1;
+                break;
             }
         }
         fr(i, st){
             cout << s[i];
         }
-        cout << mst;
-        fr(i, st){
-            cout << s[st - i - 1];
+        if(mode){
+            for(int j = st + plc - 1, i = 0; i < sz - ans; i++){
+                cout << s[j-i];
+            }
         }
+        else{
+            for(int j = st, i = 0; i < sz - ans; i++){
+                cout << s[j+i];
+            }
+        }
+        fr(i, st) cout << s[st - 1 - i];
         cout << endl;
     }
 }

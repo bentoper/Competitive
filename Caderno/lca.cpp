@@ -15,39 +15,37 @@ void dfslca(int v){
 	
 	for(auto filho : adj[v]){
 	
-		if(hgt[filho] != -1)	continue;
+		if(hgt[filho] != -1) continue;
 	
-		memo[filho][0]=v;		//seta o pai do cara
+		memo[filho][0]=v;
 		hgt[filho]=hgt[v]+1;
 		
-		for(int i=1;i<LMAXN;i++)	
-			if(memo[filho][i-1] != -1) memo[filho][i]=memo[memo[filho][i-1]][i-1];
-								//gera a sparse table na propria dfs (dependencias ja estao calculadas, por inducao)
-		dfs(filho);
+		for(int i=1;i<LMAXN;i++) if(memo[filho][i-1] != -1) memo[filho][i]=memo[memo[filho][i-1]][i-1];
+		dfslca(filho);
 	}
 
 }
 
 int lca(int a, int b){
 
-	if(hgt[a]<hgt[b])	swap(a,b);		//quero que a seja o cara mais profundo na arvore
+	if(hgt[a]<hgt[b]) swap(a,b);
 
-	for(int i=LMAXN-1; i>=0; i-- ){						//bota a e b na mesma altura
-		if(memo[a][i] != -1 && hgt[ memo[a][i] ] >= hgt[b])	a=memo[a][i];	//vou subir o a ate ele ficar no mesmo nivel do b
+	for(int i=LMAXN-1; i>=0; i-- ){
+		if(memo[a][i] != -1 && hgt[ memo[a][i] ] >= hgt[b])	a=memo[a][i];
 	}
 
 	if(a==b)	return a;
 
-	for(int i=LMAXN-1; i>=0; i--){	//vai pulando ate ficarem ambos a e b um nivel antes do LCA
+	for(int i=LMAXN-1; i>=0; i--){
 		if(memo[a][i] == -1 || memo[a][i] == memo[b][i]) continue;
 		a=memo[a][i];
 		b=memo[b][i];
 	}
 
-	return memo[b][0];	//sobe um nivel e retorna o lca
+	return memo[b][0];
 
 }
 
-int main(){
+Int main(){
 
 }

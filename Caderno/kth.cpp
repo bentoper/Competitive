@@ -12,4 +12,4 @@ typedef tree<int, null_type, less<int>, rb_tree_tag,
 ordered_set S;
 S.insert();
 *S.find_by_order(kth);
-*S.order_of_key(val) number of < val
+S.order_of_key(val) number of < val

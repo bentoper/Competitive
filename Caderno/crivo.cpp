@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
-// O(N) complexity (don't really know why) - thanks to nonseq
+// O(N) complexity - each number is marked only once. If n = p*d, where p is the
+//  smallest prime that divides n, then n is marked when the loop reaches i = d. 
 #define pb push_back
 //#define MAX_SIEVE 1000000
 

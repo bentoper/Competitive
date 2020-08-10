@@ -3,8 +3,8 @@ using namespace std;
 
 #define pb push_back
 #define mp make_pair
-#define ff first
-#define ss second
+#define fst first
+#define snd second
 
 #define fr(i,n) 	for(int i=0;i<n;i++)
 #define frr(i,n)	for(int i=1;i<=n;i++)
@@ -31,7 +31,32 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
+const int N = 2e5 + 1;
+
 
 int main(){
-
+    rvr(t);
+    while(t--){
+        int n, k;
+        scanf("%d%d", &n, &k);
+        vi vec(n);
+        fr(i, n) scanf("%d", &vec[i]), vec[i] %= k;
+        sort(all(vec));
+        reverse(all(vec));
+        while(!vec.empty() && vec[vec.size() - 1] == 0) vec.pop_back();
+        if(vec.empty()){
+            printf("0\n");
+            continue;
+        }
+        ll ans = 1;
+        n = vec.size();
+        int last = -1, cur = 0;
+        fr(i, n){
+            if(vec[i] == last) cur++;
+            else cur = 1;
+            ans = max(ans, (ll)(cur - 1)*(ll)k + (ll)(k - vec[i]));
+            last = vec[i];
+        }
+        printf("%lld\n", ans + 1);
+    }
 }

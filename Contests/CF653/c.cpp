@@ -3,8 +3,8 @@ using namespace std;
 
 #define pb push_back
 #define mp make_pair
-#define ff first
-#define ss second
+#define fst first
+#define snd second
 
 #define fr(i,n) 	for(int i=0;i<n;i++)
 #define frr(i,n)	for(int i=1;i<=n;i++)
@@ -33,5 +33,27 @@ const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
 int main(){
-
+    fastio;
+    int t; cin >> t;
+    while(t--){
+        int n;
+        string s;
+        cin >> n >> s;
+        stack<char> S;
+        int mv = 0;
+        fr(i, n){
+            if(!S.empty() && S.top() != s[i] && S.top() == '('){
+                S.pop();
+                continue;
+            }
+            S.push(s[i]);    
+        }
+        int op = 0, cl = 0;
+        while(!S.empty()){
+            if(S.top() == ')') op++;
+            else cl ++;
+            S.pop();
+        }
+        printf("%d\n", min(op, cl));
+    }
 }

@@ -33,5 +33,15 @@ const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
 int main(){
+    rvr(t);
+    while(t--){
+        rvr(n);
+        vi ans;
+        fr(i, ((n+3)/4)) ans.pb(8);
+        while(ans.size() < n) ans.pb(9);
+        reverse(all(ans));
+        for(auto p: ans) printf("%d", p);
+        printf("\n");
+    }
 
 }

@@ -31,7 +31,43 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
+const int N = 2e5 + 1;
+
+int adj[N];
+int deg[N];
+
 
 int main(){
-
+    rvr(n);
+    vll a(n);
+    vi b(n);
+    fr(i, n) scanf("%lld", &a[i]), deg[i] = 0;
+    fr(i, n){
+        scanf("%d", &b[i]);
+        if(b[i] != -1) adj[i] = (b[i] - 1), deg[b[i]-1]++;
+        else adj[i] = -1;
+    }
+    queue<int> q;
+    vi beg, end;
+    ll ans = 0;
+    fr(i, n){
+        if(!deg[i]) q.push(i);
+    }
+    while(!q.empty()){
+        int v = q.front();
+        q.pop();
+        if(a[v] < 0) end.push_back(v);
+        else beg.pb(v);
+        ans += a[v];
+        if(adj[v] != -1){
+            deg[adj[v]]--;
+            if(a[v] > 0) a[adj[v]] += a[v];
+            if(!deg[adj[v]]) q.push(adj[v]);
+        }
+    }
+    printf("%lld\n", ans);
+    for(auto p: beg) printf("%d ", p + 1);
+    reverse(all(end));
+    for(auto p: end) printf("%d ", p+1);
+    printf("\n");
 }

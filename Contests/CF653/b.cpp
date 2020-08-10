@@ -3,8 +3,8 @@ using namespace std;
 
 #define pb push_back
 #define mp make_pair
-#define ff first
-#define ss second
+#define fst first
+#define snd second
 
 #define fr(i,n) 	for(int i=0;i<n;i++)
 #define frr(i,n)	for(int i=1;i<=n;i++)
@@ -33,5 +33,26 @@ const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
 int main(){
-
+    rvr(t);
+    while(t--){
+        rvr(n);
+        if(n == 1){
+            printf("0\n");
+            continue;
+        }
+        int cnt[] = {0, 0};
+        while(n%2 == 0){
+            n /= 2;
+            cnt[0]++;
+        }
+        while(n%3 == 0){
+            n /= 3;
+            cnt[1]++;
+        }
+        if(n != 1 || cnt[0] > cnt[1]){
+            printf("-1\n");
+            continue;
+        }
+        printf("%d\n", cnt[1] - cnt[0] + cnt[1]);
+    }
 }

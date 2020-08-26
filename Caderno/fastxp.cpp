@@ -3,10 +3,14 @@ using namespace std;
 
 typedef long long int ll;
 
-ll fastxp(ll a, int x, int mod){
-	if(x == 0) return 1;
-	if(x == 1) return a;
-	return (fastxp((a*a)%mod, x/2, mod)*((x&1)?a:1))%mod;
+ll fastxp(ll x, ll n){
+	ll ret = 1;
+	while(n){
+		if(n&1ll) ret *= x;
+		x *= x;
+		n>>1ll;
+	}
+	return ret;
 }
 
 int main(){

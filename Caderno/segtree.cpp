@@ -22,19 +22,13 @@ class SegTree{
 		build(1, 0, n-1);
 	}
 
-	T update(T a, T b){
-		return upd(a, b);
-	}
-
 	T build(int nd, int start, int end){
 		lo[nd] = start; hi[nd] = end;
 		if(start == end){
-			seg[nd] = v[start];
-			return seg[nd];
+			return seg[nd] = v[start];;
 		}
 		int mid = (end+start)/2;
-		seg[nd] = update(build(2*nd, start, mid), build(2*nd + 1, mid + 1, end)); 
-		return seg[nd];
+		return seg[nd] = upd(build(2*nd, start, mid), build(2*nd + 1, mid + 1, end)); 
 	}
 
 	void unlazy(int nd){
@@ -43,12 +37,9 @@ class SegTree{
 
 	T query(int nd, int start, int end){
 		unlazy(nd);
-	
 		if(hi[nd] < start || lo[nd] > end) return LIXO;
-		if(lo[nd] >= start && hi[nd] <= end){
-			return seg[nd];
-		}
-		return update(query(2*nd, start, end), query(2*nd + 1, start, end));
+		if(lo[nd] >= start && hi[nd] <= end) return seg[nd];
+		return upd(query(2*nd, start, end), query(2*nd + 1, start, end));
 	}
 
 	void change(int nd, int start, int end, T x){
@@ -61,7 +52,7 @@ class SegTree{
 		}
 		change(2*nd, start, end, x);
 		change(2*nd+1, start, end, x);
-		seg[nd] = update(seg[2*nd], seg[2*nd+1]);
+		seg[nd] = upd(seg[2*nd], seg[2*nd+1]);
 	}
 };
 

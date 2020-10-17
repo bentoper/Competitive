@@ -11,6 +11,7 @@ using namespace std;
 #define pv(x, n)    fr(iii, n) printf("%d%c", x[iii], " \n"[iii==n-1])
 #define pvv(x, n)    frr(iii, n) printf("%d%c", x[iii], " \n"[iii==n])
 #define vp(v)        pv(v, v.size()) 
+#define tsts(t) rvr(t); while(t--)
 
 
 #define ms(x,i)	memset(x,i,sizeof(x))

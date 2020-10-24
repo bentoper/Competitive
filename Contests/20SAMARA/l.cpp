@@ -33,5 +33,14 @@ const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
 int main(){
-
+    rvr(n);
+    ll sm = 0, cur = 1;
+    fr(i, n){
+        ll a; scanf("%lld", &a);
+        if(a > cur){
+            sm += a - cur;
+            cur++;
+        }
+    }
+    printf("%lld\n", sm);
 }

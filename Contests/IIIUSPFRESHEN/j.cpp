@@ -13,6 +13,7 @@ using namespace std;
 #define vp(v)        pv(v, v.size()) 
 #define tsts(t) rvr(t); while(t--)
 
+
 #define ms(x,i)	memset(x,i,sizeof(x))
 #define dbg(x)	cout << #x << " = " << x << endl
 #define all(x)	x.begin(),x.end()
@@ -32,6 +33,26 @@ typedef pair<ll,ll> pll;
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
-int main(){
+int x[] = {1, -1, 0, 0}, y[] = {0, 0, -1, 1};
 
+int main(){
+    int n, m; scanf("%d%d", &n, &m);
+    vector<vi> grid(n, vector<int>(3, 0));
+    fr(i, n){
+        int p;
+        char c;
+        cin >> p >> c;
+        p--;
+        int val = 2;
+        if(c == 'H'){
+            val = 0;
+        }
+        else if(c == 'M'){
+            val = 1;
+        }
+        grid[p][val] = 1;
+        fr(k, 4){
+            if(p + x[k] < n && p + x[k] > 0 && val + y[k] > 0 && val + y[k] < 3) grid[p+x[k]][val+y[k]] = 1;
+        }
+    }
 }

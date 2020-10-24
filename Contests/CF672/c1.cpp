@@ -13,6 +13,7 @@ using namespace std;
 #define vp(v)        pv(v, v.size()) 
 #define tsts(t) rvr(t); while(t--)
 
+
 #define ms(x,i)	memset(x,i,sizeof(x))
 #define dbg(x)	cout << #x << " = " << x << endl
 #define all(x)	x.begin(),x.end()
@@ -31,7 +32,31 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
+const int N = 3e5 + 1;
+
+ll memo[N][2];
+int a[N], n;
+
+
+ll dp(int i, int s){
+    if(i == n) return 0;
+    ll& pdm = memo[i][s];
+    if(pdm != -1) return pdm;
+    pdm = (s>0?-1ll:1ll)*(ll)a[i] + dp(i+1, 1^s);
+    pdm = max(pdm, dp(i+1, s));
+    pdm = max(pdm, 0ll);
+    //mprintf("i %d s %d pdm %d\n", i, s, pdm);
+    return pdm;
+}
 
 int main(){
-
+    tsts(t){
+        scanf("%d", &n);
+        int q; scanf("%d", &q);
+        fr(i, n){
+            fr(j, 2) memo[i][j] = -1;
+            scanf("%d", &a[i]);
+        }
+        printf("%lld\n", dp(0, 0));
+    }
 }

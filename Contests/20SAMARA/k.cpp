@@ -33,5 +33,14 @@ const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
 int main(){
-
+    vi a(4);
+    fr(i, 4) scanf("%d", &a[i]);
+    sort(all(a));
+    do{
+        if(a[0] - a[1] == a[2] - a[3] && a[0] - a[2] == a[1] - a[3]){
+            printf("YES\n");
+            return 0;
+        }
+    }while(next_permutation(all(a)));
+    printf("NO\n");
 }

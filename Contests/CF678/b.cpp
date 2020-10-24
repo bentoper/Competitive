@@ -33,5 +33,30 @@ const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
 int main(){
-
+    tsts(t){
+        rvr(n);
+        if(n == 2){
+            printf("1 1\n1 1\n");
+        }
+        else if(n == 3){
+            printf("1 1 1\n1 1 1\n1 1 1\n");
+        }
+        else if(n == 4){
+            printf("4 6 8 1\n4 9 9 9\n4 10 10 65\n1 4 4 4\n");
+        }
+        else if(n >= 5){
+            vector<vi> grid(n, vi(n, 1));
+            int cur = 0, diff  = n - 5;
+            fr(i, n){
+                fr(j, diff){
+                    grid[i][(cur + j)%n] = 0;
+                }
+                fr(j, n){
+                    printf("%d ", grid[i][j]);
+                }
+                cur++;
+                printf("\n");
+            }
+        }
+    }
 }

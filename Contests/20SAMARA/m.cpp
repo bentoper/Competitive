@@ -33,5 +33,13 @@ const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
 int main(){
-
+    rvr(n);
+    ll time = 0;
+    fr(i, n){
+        rvr(t);
+        rvr(d);
+        time = max(time, (ll)t);
+        time += (ll)d;
+    }
+    printf("%lld\n", time);
 }

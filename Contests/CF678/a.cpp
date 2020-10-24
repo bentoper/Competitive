@@ -33,5 +33,17 @@ const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
 int main(){
-
+    rvr(t);
+    while(t--){
+        int n, m; scanf("%d%d", &n, &m);
+        ll sm = 0;
+        fr(i, n){
+            rvr(a);
+            sm += (ll) a;
+        }
+        if(sm == m){
+            printf("YES\n");
+        }
+        else printf("NO\n");
+    }
 }

@@ -31,7 +31,30 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
+const int N = 2e5 + 1;
+
+vi adj[N];
 
 int main(){
-
+    rvr(n);
+    fr(i, n){
+        rvr(a); rvr(c);
+        adj[c].pb(a);
+    }
+    bool deu = true;
+    frr(i, N-1){
+        if(adj[i].size() <= 1) continue;
+        int sz = adj[i].size(); 
+        fr(j, sz - 1){
+            if(adj[i][j] > adj[i][j+1]){
+                deu = false;
+                goto END;
+            }
+        }
+    }
+    END:
+    if(deu){
+        printf("YES\n");
+    }
+    else printf("NO\n");
 }

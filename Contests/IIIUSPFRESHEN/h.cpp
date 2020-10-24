@@ -13,6 +13,7 @@ using namespace std;
 #define vp(v)        pv(v, v.size()) 
 #define tsts(t) rvr(t); while(t--)
 
+
 #define ms(x,i)	memset(x,i,sizeof(x))
 #define dbg(x)	cout << #x << " = " << x << endl
 #define all(x)	x.begin(),x.end()
@@ -33,5 +34,21 @@ const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
 int main(){
-
+    int l = 1, r = 1e9;
+    bool deu = false;
+    while(r > l){
+        int mid = (l + r)/2;
+        cout << "Q " << mid << endl;
+        char t; cin >> t;
+        if(t == '='){
+            deu = true;
+            break;
+        }
+        else if(t == '<') r = mid - 1;
+        else l = mid + 1;
+    }
+    if(!deu){
+        cout << "Q " << l << endl;
+        char t; cin >> t;
+    }
 }

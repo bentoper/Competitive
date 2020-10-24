@@ -33,5 +33,31 @@ const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
 int main(){
-
+    rvr(n);
+    ll t; scanf("%lld", &t);
+    vi pos, neg;
+    int z = 0;
+    fr(i, n){
+        rvr(a);
+        if(a > 0) pos.pb(a);
+        else if(a < 0) neg.pb(a);
+        else z = 1;
+    }
+    int ans = 0;
+    fr(i, pos.size()){
+        if(pos[i] > t) break;
+        ans = max(ans, i+1);
+    }
+    fr(i, neg.size()){
+        if(abs(neg[i]) <= t){
+            ans = max(ans, (int)neg.size() - i);
+            if(!pos.empty()){
+                int plc = upper_bound(all(pos), (t - 2*abs(neg[i]))) - pos.begin();
+                ans = max(ans, plc + (int)neg.size() - i);
+                plc = upper_bound(all(pos), (t - abs(neg[i]))/2) - pos.begin();
+                ans = max(ans, plc + (int)neg.size() - i);
+            }
+        }
+    }
+    printf("%d\n", ans + z);
 }

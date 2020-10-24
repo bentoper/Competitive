@@ -31,7 +31,20 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
+const int N = 2e5 + 1;
+
+int deg[N];
 
 int main(){
-
+    rvr(n);
+    fr(i, n-1){
+        int a, b; scanf("%d%d", &a, &b);
+        deg[a]++;
+        deg[b]++;
+    }
+    int qnt = 0;
+    frr(i, n){
+        qnt += (deg[i]==1);
+    }
+    printf("%d\n", qnt/2 + qnt%2);
 }

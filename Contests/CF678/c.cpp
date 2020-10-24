@@ -31,7 +31,36 @@ typedef pair<ll,ll> pll;
 
 const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
+const ll MOD = 1e9 + 7;
 
 int main(){
-
+    rvr(n); rvr(x); rvr(pos);
+    int G = n - x, L = x - 1;
+    int l = 0, r = n;
+    ll ans = 1;
+    while(l < r){
+        int mid = (l+r)/2;
+        if(pos == mid){
+            break;
+        }
+        if(pos < mid){
+            ans *= (ll) G;
+            ans %= MOD;
+            G--;
+            r = mid;
+        }
+        else{
+            ans *= (ll) L;
+            ans %= MOD;
+            L--;
+            l = mid + 1;
+        }
+    }
+    int lf = G + L;
+    while(lf){
+        ans *= (ll) lf;
+        lf--;
+        ans %= MOD;
+    }
+    printf("%lld\n", ans);
 }

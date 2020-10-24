@@ -13,6 +13,7 @@ using namespace std;
 #define vp(v)        pv(v, v.size()) 
 #define tsts(t) rvr(t); while(t--)
 
+
 #define ms(x,i)	memset(x,i,sizeof(x))
 #define dbg(x)	cout << #x << " = " << x << endl
 #define all(x)	x.begin(),x.end()
@@ -33,5 +34,12 @@ const int INF = 0x3f3f3f3f;
 const ll llINF = 0x3f3f3f3f3f3f3f;
 
 int main(){
-
+    fastio;
+    string s; cin >> s;
+    int n = s.size();
+    cout << 4 << endl;
+    cout << "R " << n - 1 << endl;
+    cout << "R " << n << endl;
+    cout << "L " << n + 1 << endl;
+    cout << "L " << 2 << endl;
 }
